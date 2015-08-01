@@ -98,6 +98,18 @@ module.exports = function (app, passport) {
             sendToClient('Missing param story',null,res);
         }
     });
+
+    app.post('/api/getsafeuserinfo', function (req,res) {
+        var userid = req.body.userid;
+
+        if (userid) {
+            user.findOne({_id:userid}, {_id:1, firstName:1, lastName:1,story:1}, function(error,user){
+                sendToClient(error,user,res);
+            });
+        } else {
+            sendToClient('Missing param userid',null,res);
+        }
+    });
 };
 
 // route middleware to ensure user is logged in

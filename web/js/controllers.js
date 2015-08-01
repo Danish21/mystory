@@ -7,12 +7,14 @@ angular.module('appname.controllers',[])
 .controller('homeCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope', function ($scope,logoutService,toastr,$location,$rootScope) {
  	
  }])
-.controller('storyCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
+.controller('storyCtrl', ['$scope','$routeParams', 'storyService', function ($scope,$routeParams,storyService) {
 	$scope.init = function () {
 		$scope.userid = $routeParams.userid;
 		if ($scope.userid) { 
 			storyService.getSafeUserInfo($scope.userid).then(function (result){
-				$scope.story = result;
+				if (result.status === 'OK') {
+					$scope.user = result.data;
+				}
 			});
 		}
 	};
