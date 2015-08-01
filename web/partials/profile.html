@@ -1,0 +1,16 @@
+<br>
+<br>
+<div class="row">
+	<div class="col-sm-8 col-sm-offset-2 whiteBackground appname-form">		
+		<h1>{{user.firstName}} {{user.lastName}}'s story</h1>
+		<div ng-show="editstory">
+			<br>
+			<br>
+			<text-angular ng-model="user.story"></text-angular>
+		</div>
+		<br>
+		<div ng-bind-html="user.story" ng-hide="editstory"></div>
+		<a href="" ng-click="editstory=true;" ng-hide="editstory">(Edit)</a>
+		<button class="btn btn-primary" ng-click="saveStory(user.story);" ng-show="editstory">Save</button>		
+	</div>
+</div>

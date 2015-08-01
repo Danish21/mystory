@@ -1,0 +1,49 @@
+/*h1{
+	color: red;
+}*/
+html, body, h1, h2, h3, h4, h5 {
+    font-family: helvetica;
+}
+body{
+	    background-color: #ececec;
+      margin-top: 50px;
+      margin-bottom: 50px;
+}
+.noBackground {
+    background: none;
+}
+.full {
+  background: url(http://placehold.it/1920x1080) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.whiteBackground{
+    background-color: white;
+}
+.appname-standard-border{
+    border: 1px solid #e8e8e8;
+}
+.appname-form{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: white;
+}
+
+.animate-view.ng-animate {
+    -webkit-transition:all linear .5s;
+    transition:all linear .5s;
+}
+.animate-view.ng-leave,
+.animate-view.ng-leave.ng-leave-active{
+    display:none;
+}
+.animate-view.ng-enter {
+    opacity: 0;
+}
+.animate-view.ng-enter.ng-enter-active {
+    opacity:1;
+}
