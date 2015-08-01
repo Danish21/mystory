@@ -108,7 +108,7 @@ module.exports = function (app, passport) {
             });
         } else {
             sendToClient('Missing param userid',null,res);
-            asfskdjfkj
+            
         }
     });
 };
