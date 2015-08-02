@@ -27,6 +27,18 @@
 				    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" ng-model="password"></input>
 			 	</div>
 			</div>
+			<div class="row">
+			  	<div class="form-group col-sm-12">
+				    <label for="University">University</label>
+				    <select ng-model="university" ng-options="college as college for college in universities" id="University"></select>
+			 	</div>
+			</div>
+			<div class="row">
+			  	<div class="form-group col-sm-12">
+				    <label for="Department">Department</label><br>
+				    <select ng-model="department" ng-options="department as department for department in departments" id="Department"></select>
+			 	</div>
+			</div>
 		  	<div class="row text-center">
 	            <div class="col-sm-12">
 	                <button type="submit" class="btn btn-primary" ng-click="signup()">Submit</button>

@@ -1,4 +1,4 @@
-angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', 'appname.services','ngAnimate','toastr','textAngular']).
+angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', 'appname.services','ngAnimate','toastr','textAngular','UniversityService']).
 	config(['$routeProvider', function($routeProvider){
 		'use strict';
 		$routeProvider.

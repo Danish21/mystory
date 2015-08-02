@@ -4,7 +4,7 @@ angular.module('appname.controllers',[])
         	logoutService.logout();
         };
  }])
-.controller('homeCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope', function ($scope,logoutService,toastr,$location,$rootScope) {
+.controller('homeCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope', function ($scope,logoutService,toastr,$location,$rootScope,universities) {
  	
  }])
 .controller('storyCtrl', ['$scope','$routeParams', 'storyService', function ($scope,$routeParams,storyService) {
@@ -35,14 +35,16 @@ angular.module('appname.controllers',[])
 		}
 	};
 }])
-.controller('signupCtrl',['$scope','signupService','toastr','$rootScope','$location', function($scope,signupService,toastr,$rootScope,$location){
+.controller('signupCtrl',['$scope','signupService','toastr','$rootScope','$location','universities', function($scope,signupService,toastr,$rootScope,$location,universities){
 	$scope.signup = function () {
 		if($scope.firstName && $scope.lastName && $scope.email && $scope.password){
 			var data= {
 				email: $scope.email,
 				password: $scope.password,
 				firstName: $scope.firstName,
-				lastName: $scope.lastName
+				lastName: $scope.lastName,
+				department: $scope.department,
+				university: $scope.university
 			};
 			signupService.signup(data).then(function (result) {
 				if(result.status === 'OK'){
@@ -53,7 +55,10 @@ angular.module('appname.controllers',[])
 		} else {
 			toastr.error('All fields are required');
 		}
-	}
+	};
+	$scope.universities = universities.names.sort(); //need to make it so list is already sorted
+	$scope.departments = universities.departments.sort();
+
 	
 }])
 .controller('profileCtrl',['$scope','profileService','$rootScope','toastr', function($scope,profileService,$rootScope,toastr){
