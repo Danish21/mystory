@@ -37,18 +37,18 @@ angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', '
     }]);
 
 	var checkLogin =  function  ($q, $http, $location,$rootScope,toastr) {
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 
 		$http.get('/api/loggedin').success(function (user) {
 			//User is authenticated
 			if (user!=0) {
 				$rootScope.currentUser = user;
-				deffered.resolve();
+				deferred.resolve();
 			} 
 			//User is not Authenticated
 			else {
 				$rootScope.currentUser = undefined;
-				deffered.reject();
+				deferred.reject();
 				$location.url('/login');
 				toastr.error('Please Login First');
 			}
@@ -59,18 +59,18 @@ angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', '
 	};
 
 	var loginRedirect = function ($q, $http, $location,$rootScope) {
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 		$http.get('/api/loggedin').success(function (user) {
 			//User is authenticated
 			if (user!=0) {
 				$rootScope.currentUser = user;
-				deffered.reject();
+				deferred.reject();
 				$location.url('/profile');
 			} 
 			//User is not Authenticated
 			else {
 				$rootScope.currentUser = undefined;
-				deffered.resolve();
+				deferred.resolve();
 			}
 		})
 	};
