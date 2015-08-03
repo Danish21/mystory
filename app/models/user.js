@@ -15,8 +15,7 @@ var userSchema = mongoose.Schema({
         email        : String,
         password     : String
     },
-    story: String,
-    question: String
+    story: String
 
 });
 
