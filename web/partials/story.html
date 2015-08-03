@@ -6,7 +6,7 @@
 		<div class="row" ng-bind-html="user.story"></div>
 		<div class="row">
 			<div class="col-sm-12 appname-form">
-				<text-angular ng-model="user.question"></text-angular>
+				<text-angular ng-model="user.question" ng-show="askquestion"></text-angular>
 				<a href="" ng-click="askquestion=true;" ng-hide="askquestion">Have a question?</a>
 				<button class="btn btn-primary" ng-show="askquestion">Submit</button>	
 			</div>
