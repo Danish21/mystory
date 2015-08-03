@@ -1,20 +1,17 @@
 <br>
 <br>
+
 <div class="row">
 	<div class="col-sm-8 col-sm-offset-2 appname-form scrollWhenBig">	
 		<h1>{{user.firstName}} {{user.lastName}}'s story</h1>
-		<div ng-bind-html="user.story"></div>	
+		<div class="row" ng-bind-html="user.story"></div>
+		<div class="row">
+			<div class="col-sm-12">	
+				<a href="" ng-click="askquestion=true;" ng-hide="askquestion">Have a question?</a>
+			</div>
+		</div>
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-sm-12">	
-		<a href="askquestion=true;" ng-hide="askquestion">Have a question?</a>
-	</div>
-</div>
 
-<div class="row" ng-show="showQandA">
-	<div class="col-sm-12">
-		<h3>Q&A <a href="showQ&A">show</a></h3>
-	</div>
-</div>
+
