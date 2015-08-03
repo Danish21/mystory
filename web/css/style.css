@@ -32,6 +32,10 @@ body{
     padding-right: 30px;
     background-color: white;
 }
+.scrollWhenBig {
+  max-height: 500px;
+  overflow-y: scroll;
+}
 
 .animate-view.ng-animate {
     -webkit-transition:all linear .5s;
