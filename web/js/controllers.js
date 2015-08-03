@@ -112,5 +112,7 @@ angular.module('appname.controllers',[])
 		});
 	};
 
+	$scope.askquestion = false;
+
 }]);
 
