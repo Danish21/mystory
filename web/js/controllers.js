@@ -112,15 +112,6 @@ angular.module('appname.controllers',[])
 		});
 	};
 
-	$scope.submitQuestion = function (question) {
-		profileService.updateQuestion(question).then(function (result) {
-			if (result.status === 'OK') {
-				toastr.success('Question submitted');
-				$scope.askquestion = false;
-			}
-		});
-	};
-
 	$scope.askquestion = false;
 
 }]);
