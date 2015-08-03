@@ -72,7 +72,29 @@ angular.module('appname.services',[])
 				result = ulhttp.handleError(result);
 				return result;
 			});
+		},
+		getAnswered:  function () {
+			var url = "http://localhost:3000/api/getansweredquestions";
+			return ulhttp.get(url).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			});
+		},
+		getUnanswered: function () {
+			var url = "http://localhost:3000/api/getunansweredquestions";
+			return ulhttp.get(url).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			});
+		},
+		confirmUserEmail: function (confirmationCode) {
+			var url = "http://localhost:3000/api/confirmemail";
+			return ulhttp.post(url,{confirmationCode: confirmationCode}).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			});
 		}
+
 	};
 })
 .factory('storyService', function(ulhttp){

@@ -28,7 +28,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#/profile">My Profile</a>
+                        <a href="#/profile" ng-show="$root.currentUser">Profile</a>
+                    </li>
+                    <li>
+                        <a href="#/q&a" ng-show="$root.currentUser">Q&A</a>
                     </li>
                     <li>
                         <a href="#/login" ng-hide="$root.currentUser">Login</a>

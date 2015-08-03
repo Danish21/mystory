@@ -48,8 +48,8 @@ angular.module('appname.controllers',[])
 			};
 			signupService.signup(data).then(function (result) {
 				if(result.status === 'OK'){
-					$rootScope.currentUser = result.user;
-					$location.path('/profile');
+					toastr.success('We have emailed you a link to confirm your email. Please confirm your email and you will ready to go!');
+					$location.path('/login');
 				}
 			});
 		} else {
@@ -72,11 +72,45 @@ angular.module('appname.controllers',[])
 	$scope.saveStory = function (story) {
 		profileService.updateStory(story).then(function (result) {
 			if (result.status === 'OK') {
-				toastr.success('StorySaved');
+				toastr.success('Story Saved');
 				$scope.editstory = false;
 			}
 		});
 	};
 	$scope.editstory =false;
 	$scope.getuserinfo();
+}])
+.controller('confirmCtrl',['$scope','profileService','$rootScope','toastr','$location', function($scope,profileService,$rootScope,toastr,$location){
+	$scope.confirmUserEmail = function (confirmationCode) {
+		profileService.confirmUserEmail(confirmationCode).then(function(result){
+			if(result.status === 'OK') {
+				$scope.emailConfirmed = true;
+				toastr.success('You can now login');
+				$location.path('/login');
+			}
+		});
+	};
+	$scope.confirmUserEmail($location.search().c);
+}])
+.controller('qandaCtrl',['$scope','profileService','$rootScope','toastr', function($scope,profileService,$rootScope,toastr){
+	$scope.getAnswered = function () {
+		console.log('in getAnswered');
+		profileService.getAnswered().then(function (result) {
+			if (result.status === 'OK') {
+				console.log(result.data);
+				$scope.QandAs = result.data;
+			}
+		});
+	};
+	$scope.getUnanswered = function (story) {
+		console.log('in getUnanswered');
+		profileService.getUnanswered().then(function (result) {
+			if (result.status === 'OK') {
+				console.log(result.data);
+				$scope.QandAs = result.data;
+			}
+		});
+	};
+
 }]);
+

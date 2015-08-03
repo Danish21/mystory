@@ -5,7 +5,7 @@ var qandaSchema = mongoose.Schema({
 	questioner: {type:  mongoose.Schema.ObjectId, ref: 'user'},
 	question: String,
 	answer: String,
-	public: boolean
+	public: Boolean
 });
 
 module.exports = mongoose.model('qanda', qandaSchema);

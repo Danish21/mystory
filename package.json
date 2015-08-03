@@ -11,7 +11,9 @@
     "passport-twitter" : "~1.0.2",
     "passport-google-oauth" : "~0.1.5",
     "connect-flash" : "~0.1.1",
-    "bcrypt-nodejs" : "latest",
+    "bcrypt-nodejs" : "~0.0.3",
+    "nodemailer" : "~1.4.0",
+    "node-uuid" : "~1.4.3",
 
     "morgan": "~1.0.0",
     "body-parser": "~1.0.0",

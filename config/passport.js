@@ -1,9 +1,8 @@
 // load all the things we need
-var LocalStrategy    = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy,
+    User = require('../app/models/user');
 
-// load up the user model
-var User       = require('../app/models/user');
-
+    
 module.exports = function(passport) {
 
     // =========================================================================
@@ -48,6 +47,9 @@ module.exports = function(passport) {
                 if (!user)
                     return done(null, false, 'No user found.');
 
+                if(!user.isConfirmed)
+                    return done(null, false, 'Email is not confirmed.');
+
                 if (!user.validPassword(password))
                     return done(null, false, 'Oops! Wrong password.');
 
@@ -62,7 +64,7 @@ module.exports = function(passport) {
     // =========================================================================
     // LOCAL SIGNUP ============================================================
     // =========================================================================
-    passport.use('local-signup', new LocalStrategy({
+    passport.use('local-signup', new LocalStrategy({ ///Not using currently keeping in case
         // by default, local strategy uses username and password, we will override with email
         usernameField : 'email',
         passwordField : 'password',
@@ -92,13 +94,16 @@ module.exports = function(passport) {
                         newUser.local.email    = email;
                         newUser.local.password = newUser.generateHash(password);
                         newUser.firstName = req.body.firstName;
+                        newUser.lastName = req.body.lastName;
                         newUser.university = req.body.university;
                         newUser.department = req.body.department;
+                        newUser.confirmationCode = uuid.v4();
 
                         newUser.save(function(err) {
-                            if (err)
+                            if (err){
                                 return done(err,false,'Something Went Wrong');
-
+                            } 
+                            emailService.sendEmail(newUser.local.email,newUser.confirmationCode);
                             return done(null, newUser);
                         });
                     }

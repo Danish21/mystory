@@ -6,6 +6,9 @@ angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', '
 		.when('/login', {title: 'Home', templateUrl: 'partials/login.html', navLocation: 'navLogin', controller: 'tempCtrl', resolve: {loginRedirect: loginRedirect }})
 		.when('/signup', {title: 'signup', templateUrl: 'partials/signup.html', navLocation: 'navSignup', controller: 'signupCtrl'})
 		.when('/profile', {title: 'Profile', templateUrl: 'partials/profile.html', navLocation: 'navProfile', controller: 'profileCtrl', resolve: {logincheck: checkLogin}})
+		.when('/q&a', {title: 'Q&A', templateUrl: 'partials/qanda.html', navLocation: 'navQandA', controller: 'qandaCtrl', resolve: {logincheck: checkLogin}})
+
+		.when('/confirm', {title: 'Confirm Email', templateUrl: 'partials/confirm.html', navLocation: 'navConfirm', controller: 'confirmCtrl'})
 		.when('/story/:userid', {title: 'Story', templateUrl: 'partials/story.html', navLocation: 'navStory', controller: 'storyCtrl'})
 		.otherwise({ redirectTo: '/login'});
 	}]).

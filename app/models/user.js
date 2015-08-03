@@ -8,6 +8,9 @@ var userSchema = mongoose.Schema({
 	lastName: {type: String, default: 'lastname'},
 	university: {type: String, default: ''},
 	department: {type: String, default: ''},
+	confirmationCode: {type: String},
+	isConfirmed: {type: Boolean, default: false},
+	isVerified: {type: Boolean, default: false},
     local            : {
         email        : String,
         password     : String
