@@ -58,11 +58,11 @@ module.exports = function (app, passport) {
             user.findOne({ 'local.email' :  email }, function(err, returnedUser) {
                 // if there are any errors, return the error
                 if (err)
-                    sendToClient(err,null,res);
+                    sendToClient(err, null, res);
 
                 // check to see if theres already a returnedUser with that email
                 if (returnedUser) {
-                    sendToClient(null, false,  'That email is already taken.');
+                    sendToClient('That email is already taken.', null, res);
                 } else {
                     // create the user
                     var newUser            = new user();
@@ -75,17 +75,17 @@ module.exports = function (app, passport) {
                     newUser.confirmationCode = uuid.v4();
                     newUser.save(function(err) {
                         if (err){
-                            sendToClient(err,false, 'Something Went Wrong');
+                            sendToClient(err, false, 'Something Went Wrong');
                         } 
-                        emailService.sendEmail(newUser.local.email,newUser.confirmationCode);
-                        sendToClient(null, newUser,res);
+                        emailService.sendEmail(newUser.local.email, newUser.confirmationCode);
+                        sendToClient(null, newUser, res);
                     });
                 }
 
             });
         } else {
             // user is logged in and already has a local account. Ignore signup. (You should log out before trying to create a new account, user!)
-            sendToClient('You are arleady loggedin',null,res)
+            sendToClient('You are arleady loggedin', null, res)
         }
     });
     
