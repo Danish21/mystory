@@ -87,6 +87,7 @@ angular.module('appname.services',[])
 				return result;
 			});
 		},
+		// --Not clear on what's happening here either
 		// submitQuestion: function (question) {
 		// 	var url = "http://localhost:3000/api/submitquestion";
 		// 	return ulhttp.post(url,{question: question}).then(function (result) {
