@@ -5,11 +5,13 @@
 		<h1>{{user.firstName}} {{user.lastName}}'s story</h1>
 		<div class="row" ng-bind-html="user.story"></div>
 		<div class="row">
-			<div class="col-sm-12 appname-form">
+			<div ng-show="askquestion">
 				<text-angular ng-model="qanda.question" ng-show="askquestion"></text-angular>
+			</div>
+				<div ng-bind-html="qanda.question" ng-hide="askquestion"></div>
 				<a href="" ng-click="askquestion=true;" ng-hide="askquestion">Have a question?</a>
 				<button class="btn btn-primary" ng-click="saveQuestion(qanda.question);" ng-show="askquestion">Submit</button>	
-			</div>
+
 		</div>
 	</div>
 </div>
