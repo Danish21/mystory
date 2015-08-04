@@ -23,7 +23,6 @@ angular.module('appname.controllers',[])
 		if ($scope.question) {
 			storyService.getQuestion($scope.question).then( function (result){
 				if (result.status === 'OK') {
-					$scope.question = result.data;
 					toastr.success('Question submitted');
 				}
 			});
