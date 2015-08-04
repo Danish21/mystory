@@ -18,6 +18,9 @@ angular.module('appname.controllers',[])
 			});
 		}
 	};
+	$scope.submitQuestion = function () {
+		alert('hello');
+	};
 	$scope.init();
  }])
 .controller('tempCtrl',['$scope', 'logginService', 'logoutService','toastr','$rootScope','$location', function($scope, logginService,logoutService,toastr,$rootScope,$location){

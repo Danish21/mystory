@@ -6,8 +6,9 @@
 		<div class="row" ng-bind-html="user.story"></div>
 		<div class="row">
 			<div class="col-sm-12 appname-form">
-				<text-angular ng-model="qanda.question" ng-show="askquestion"></text-angular>
-				<a href="" ng-click="askquestion=true;" ng-hide="askquestion">Have a question?</a>
+			<!-- 	<text-angular ng-model="qanda.question" ng-show="askquestion"></text-angular> -->
+				<a href="" ng-click="askquestion=true;" ng-hide="askquestion">Have a question?</a><br>
+				<textarea class="form-control" rows="3" ng-model="qanda.question" ng-show="askquestion"></textarea> <br>
 				<button class="btn btn-primary" ng-click="submitQuestion(qanda.question);" ng-show="askquestion">Submit</button>	
 			</div>
 		</div>
