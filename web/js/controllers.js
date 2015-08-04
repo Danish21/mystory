@@ -114,10 +114,10 @@ angular.module('appname.controllers',[])
 
 	$scope.saveQuestion = function (question) {
 		profileService.submitQuestion(question).then(function (result) {
-			if (result.status === 'OK') {
+			// if (result.status === 'OK') {
 				toastr.success('Question Submitted');
 				$scope.askquestion = false;
-			}
+			// }
 		});
 	};
 
