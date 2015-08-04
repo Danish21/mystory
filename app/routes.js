@@ -163,18 +163,18 @@ module.exports = function (app, passport) {
         }
     });
 
-    // app.post('/api/submitquestion', function (req,res) {
-    //     var question = req.body.question;
+    app.post('/api/getquestion', function (req,res) {
+        var question = req.body.question;
 
-    //     if (question) {
-    //         user.update({_id:userid}, {question: question}, function (error, user){
-    //             sendToClient(error,user,res);
-    //         });
-    //     } else {
-    //         sendToClient('Missing param question',null,res);
+        if (question) {
+            user.update({_id:userid}, {question: question}, function (error, user){
+                sendToClient(error,user,res);
+            });
+        } else {
+            sendToClient('Missing param question',null,res);
             
-    //     }
-    // });
+        }
+    });
 
 
 
