@@ -7,7 +7,7 @@ angular.module('appname.controllers',[])
 .controller('homeCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope', function ($scope,logoutService,toastr,$location,$rootScope,universities) {
  	
  }])
-.controller('storyCtrl', ['$scope','$routeParams', 'storyService', function ($scope,$routeParams,storyService) {
+.controller('storyCtrl', ['$scope','$routeParams', 'storyService', 'toastr', function ($scope,$routeParams,storyService) {
 	$scope.init = function () {
 		$scope.userid = $routeParams.userid;
 		if ($scope.userid) { 
