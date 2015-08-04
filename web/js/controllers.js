@@ -19,13 +19,15 @@ angular.module('appname.controllers',[])
 		}
 	};
 	$scope.submitQuestion = function () {
-		alert('Are you sure you want to submit the question?');
+		// alert('Are you sure you want to submit the question?');
 		if ($scope.question) {
 			storyService.getQuestion($scope.question).then( function (result){
 				if (result.status === 'OK') {
 					toastr.success('Question submitted');
 				}
 			});
+		} else {
+			toastr.error('Must enter a question');
 		}
 	};
 	$scope.init();
