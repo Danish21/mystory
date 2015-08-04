@@ -19,7 +19,14 @@ angular.module('appname.controllers',[])
 		}
 	};
 	$scope.submitQuestion = function () {
-		alert('hello');
+		// alert('hello');
+		if ($scope.question) {
+			storyService.getQuestion($scope.question).then( function (result){
+				if (result.status === 'OK') {
+					$scope.user = result.data;
+				}
+			});
+		}
 	};
 	$scope.init();
  }])

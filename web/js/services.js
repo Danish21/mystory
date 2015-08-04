@@ -114,5 +114,13 @@ angular.module('appname.services',[])
 				return result;
 			});
 		},
+
+		getQuestion: function (question) {
+			var url = "http://localhost:3000/api/getquestion";
+			return ulhttp.post(url,{question:question}).then(function (result){
+				result = ulhttp.handleError(result);
+				return result;
+			});
+		}
 	};
 });
