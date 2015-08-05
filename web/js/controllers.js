@@ -20,11 +20,6 @@ angular.module('appname.controllers',[])
 	};
 	
 	$scope.submitQuestion = function (question) {
-		// if($scope.question){
-		// 	toastr.success('Question submitted');
-		// }
-		// toastr.error('Error');
-		
 		if ($scope.question) {
 			storyService.getQuestion($scope.question).then( function (result){
 				if (result.status === 'OK') {
@@ -129,15 +124,6 @@ angular.module('appname.controllers',[])
 			}
 		});
 	};
-
-	// $scope.saveQuestion = function (question) {
-	// 	profileService.submitQuestion(question).then(function (result) {
-	// 		if (result.status === 'OK') {
-	// 			toastr.success('Question Submitted');
-	// 			$scope.askquestion = false;
-	// 		}
-	// 	});
-	// };
 
 	$scope.askquestion = false;
 

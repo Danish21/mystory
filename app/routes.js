@@ -167,7 +167,7 @@ module.exports = function (app, passport) {
         var question = req.body.question;
 
         if (question) {
-            qanda.copyTo(getUnanswered(), function (error, user){
+            qanda.question.copyTo(getUnanswered(), function (error, user){
                 sendToClient(error,qandas,res);
             });
         } else {
