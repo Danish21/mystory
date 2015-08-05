@@ -19,7 +19,8 @@ angular.module('appname.controllers',[])
 		}
 	};
 	$scope.submitQuestion = function (question) {
-		// alert('Are you sure you want to submit the question?');
+		alert('Are you sure you want to submit the question?');
+		alert('Hello');
 		$scope.question = $routeParams.question;
 		if ($scope.question) {
 			storyService.getQuestion($scope.question).then( function (result){
