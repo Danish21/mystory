@@ -87,14 +87,7 @@ angular.module('appname.services',[])
 				return result;
 			});
 		},
-		// --Not clear on what's happening here either
-		// submitQuestion: function (question) {
-		// 	var url = "http://localhost:3000/api/submitquestion";
-		// 	return ulhttp.post(url,{question: question}).then(function (result) {
-		// 		result = ulhttp.handleError(result);
-		// 		return result;
-		// 	});
-		// },
+
 		confirmUserEmail: function (confirmationCode) {
 			var url = "http://localhost:3000/api/confirmemail";
 			return ulhttp.post(url,{confirmationCode: confirmationCode}).then(function (result) {
