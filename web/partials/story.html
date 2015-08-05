@@ -10,6 +10,7 @@
 				<a href="" ng-click="askquestion=true;" ng-hide="askquestion">Have a question?</a><br>
 				<textarea class="form-control" rows="3" ng-model="qanda.question" ng-show="askquestion"></textarea> <br>
 				<button class="btn btn-primary" ng-click="submitQuestion(qanda.question);" ng-show="askquestion">Submit</button>
+				<h3>{{qanda.question}}</h3>
 			</div>
 		</div>
 	</div>
