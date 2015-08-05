@@ -18,7 +18,9 @@ angular.module('appname.controllers',[])
 			});
 		}
 	};
-	$scope.submitQuestion = function () {
+	$scope.init();
+
+		$scope.submitQuestion = function () {
 		// if($scope.question){
 		// 	toastr.success('Question submitted');
 		// }
@@ -34,7 +36,6 @@ angular.module('appname.controllers',[])
 			toastr.error('Must enter a question');
 		}
 	};
-	// $scope.init();
  }])
 .controller('tempCtrl',['$scope', 'logginService', 'logoutService','toastr','$rootScope','$location', function($scope, logginService,logoutService,toastr,$rootScope,$location){
 	$scope.login = function () {
