@@ -19,7 +19,7 @@ angular.module('appname.controllers',[])
 		}
 	};
 	$scope.submitQuestion = function (question) {
-		console.log('test');
+		toastr.sucess('Question submitted');
 		$scope.question = $routeParams.question;
 		if ($scope.question) {
 			storyService.getQuestion($scope.question).then( function (result){
