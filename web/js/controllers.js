@@ -18,22 +18,22 @@ angular.module('appname.controllers',[])
 			});
 		}
 	};
-		$scope.submitQuestion = function () {
-		// if($scope.question){
-		// 	toastr.success('Question submitted');
-		// }
-		// toastr.error('Error');
+	// 	$scope.submitQuestion = function () {
+	// 	// if($scope.question){
+	// 	// 	toastr.success('Question submitted');
+	// 	// }
+	// 	// toastr.error('Error');
 		
-		if ($scope.question) {
-			storyService.getQuestion($scope.question).then( function (result){
-				if (result.status === 'OK') {
-					toastr.success('Question submitted');
-				}
-			});
-		} else {
-			toastr.error('Must enter a question');
-		}
-	};
+	// 	if ($scope.question) {
+	// 		storyService.getQuestion($scope.question).then( function (result){
+	// 			if (result.status === 'OK') {
+	// 				toastr.success('Question submitted');
+	// 			}
+	// 		});
+	// 	} else {
+	// 		toastr.error('Must enter a question');
+	// 	}
+	// };
 
 		$scope.init();
  }])
