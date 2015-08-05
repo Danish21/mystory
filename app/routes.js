@@ -167,8 +167,8 @@ module.exports = function (app, passport) {
         var question = req.body.question;
 
         if (question) {
-            user.update({_id:userid}, {question: question}, function (error, user){
-                sendToClient(error,user,res);
+            qanda.update({_id: user_id}, {question: question}, function (error, user){
+                sendToClient(error,qandas,res);
             });
         } else {
             sendToClient('Missing param question',null,res);
