@@ -34,7 +34,7 @@ angular.module('appname.controllers',[])
 			toastr.error('Must enter a question');
 		}
 	};
-	$scope.init();
+	// $scope.init();
  }])
 .controller('tempCtrl',['$scope', 'logginService', 'logoutService','toastr','$rootScope','$location', function($scope, logginService,logoutService,toastr,$rootScope,$location){
 	$scope.login = function () {
