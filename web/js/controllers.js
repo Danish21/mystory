@@ -18,9 +18,12 @@ angular.module('appname.controllers',[])
 			});
 		}
 	};
-	$scope.submitQuestion = function (question) {
+	$scope.submitQuestion = function () {
+		if($scope.question){
+			toastr.success('Question submitted');
+		}
 		toastr.error('Error');
-		toastr.success('Question submitted');
+		
 		// if ($scope.question) {
 		// 	storyService.getQuestion($scope.question).then( function (result){
 		// 		if (result.status === 'OK') {
