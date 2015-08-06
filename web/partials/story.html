@@ -6,10 +6,15 @@
 		<div class="row" ng-bind-html="user.story"></div>
 		<div class="row">
 			<div class="col-sm-12 appname-form">
-			<!-- <text-angular ng-model="qanda.question" ng-show="askquestion"></text-angular> -->
-				<a href="" ng-click="askquestion=true;" ng-hide="askquestion">Have a question?</a><br>
-				<textarea class="form-control" rows="3" ng-model="qanda.question" ng-show="askquestion"></textarea> <br>
-				<button class="btn btn-primary" ng-click="submitQuestion(qanda.question);" ng-show="askquestion">Submit</button>
+				<!--In app.js we gave this html a controller all this basically means is that there is an object called $scope that this html file and story controller share -->
+				<a href="" ng-click="askquestion=true;" ng-hide="askquestion || !$root.currentUser">Have a question?</a><br>
+				<!--Any variable inside ng-something="" is assumed by the angular to mean $scope.variable name so here in ng-click it is setting scope.askquestion = true when the link is click -->
+				<!-- ng-click and ng-hide are methods provided by angular to us to make things easier. Angular does all the checking when something is clicked or a scope variable is changed to check what thing to hide or show -->
+				<!---Here by ng-hide we are saying hide this link if $scope.askquestion || $root.currentUser is not a true value -->
+				<textarea class="form-control" rows="3" ng-model="questionText" ng-show="askquestion"></textarea> <br>
+				<!--ng-model means what ever is type into this input field so automatically update $scope.questionText to whatever is in the input text field -->
+				<button class="btn btn-primary" ng-click="submitQuestion();" ng-show="askquestion">Submit</button>
+				<!-- Here we are saying if the submit button is clicked, called the function  $scope.submitQuestion() -->
 			</div>
 		</div>
 	</div>

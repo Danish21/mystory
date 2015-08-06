@@ -13,5 +13,19 @@
 				<button class="btn btn-primary pull-right" ng-click="getUnanswered()">Show Unanswered</button>
 			</div>
 		</div>
+		<br>
+		<div class="row" ng-repeat="question in questions">
+			<div class="col-sm-12">
+				<div class="row">
+					<div class="col-sm-12">
+						<p>{{question.text}} <a href="" ng-click="question.showAnswerField = true" ng-hide="question.showAnswerField">update answer</a></p>
+						<p ng-hide="question.showAnswerField">{{question.answer}}</p>
+						<textarea class="form-control" rows="3" ng-model="question.answer" ng-show="question.showAnswerField"></textarea>
+						<button class="btn btn-primary" ng-click="updateAnswer(question)" ng-show="question.showAnswerField">Update Anwser</button>
+					</div>
+				</div>
+				<hr>
+			</div>
+		</div>
 	</div>
 </div>

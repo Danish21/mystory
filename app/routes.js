@@ -1,6 +1,6 @@
 module.exports = function (app, passport) {
     var user   = require('../app/models/user'),
-        qanda  = require('../app/models/qanda'),
+        question  = require('../app/models/question'),
         uuid   = require('node-uuid');  
         emailService = require('../app/email.js');
 
@@ -130,10 +130,9 @@ module.exports = function (app, passport) {
 
     app.get('/api/getansweredquestions', function (req,res) {
         var user_id = req.user._id; 
-        email.sendEmail();
-        qanda.find({_id: user_id, answer:{ $exists: true}}, function (error,qandas) {
+        question.find({author: user_id, answer:{ $exists: true}}, function (error,questions) {
             if (!error) {
-                sendToClient(null,qandas,res);
+                sendToClient(null,questions,res);
             } else {
                 sendToClient('Something Went Wrong',null,res);
             }
@@ -142,10 +141,9 @@ module.exports = function (app, passport) {
 
     app.get('/api/getunansweredquestions', function (req,res) {
         var user_id = req.user._id; 
-
-        qanda.find({_id: user_id, answer: { $exists: false}}, function (error,qandas) {
+        question.find({author: user_id, answer: { $exists: false}}, function (error,questions) {
             if (!error) {
-                sendToClient(null,qandas,res);
+                sendToClient(null,questions,res);
             } else {
                 sendToClient('Something Went Wrong',null,res);
             }
@@ -163,19 +161,44 @@ module.exports = function (app, passport) {
         }
     });
 
-    app.post('/api/getquestion', function (req,res) {
-        var question = req.body.question;
+    app.post('/api/submitquestion', isLoggedIn, function (req,res) { //isLoggin only lets logged in user use this route/ if not loggedin not of this code will run
+        var submittedQuestion = req.body.question; //story the question field from the req.body object.....If field is not set then will be undefined
 
-        if (question) {
-            qanda.question.copyTo(getUnanswered(), function (error, user){
-                sendToClient(error,qandas,res);
-            });
+        if (submittedQuestion) { //checking if it is undefined if it is we send an error message
+            var newQuestion  = new question(); //question is defined at the top of the page. Mongoose gives a constructor for the question schema shich we call here
+            //the reason we do this is that new Question has method called save which we will call to add the question to the database.
+            newQuestion.text = submittedQuestion.text; //story the question fields
+            newQuestion.author = submittedQuestion.author;
+            newQuestion.questioner = req.user._id; //we know the questioner is the person who is loggedin.
+            newQuestion.save( function (error,savedQuestion) { //save the question
+                sendToClient(error,savedQuestion,res); //pass it to our send to client function
+            })
         } else {
             sendToClient('Missing param question',null,res);
             
         }
     });
-
+    
+    app.post('/api/updateAnwser', isLoggedIn, function (req, res){
+        var givenQuestion = req.body.question;
+        if (givenQuestion && givenQuestion._id, givenQuestion.answer) {
+            question.findOne({_id: givenQuestion._id}, function (error, existingQuestion) {
+                if (existingQuestion) {
+                    if (existingQuestion.author.equals(req.user._id)) {
+                        question.update({_id: givenQuestion._id}, {$set: {answer:givenQuestion.answer}}, function (error,updatedQuestion) {
+                            sendToClient(error,updatedQuestion,res);
+                        });
+                    } else {
+                        sendToClient('You are not authorize to answer this question',null,res);
+                    }
+                } else {
+                    sendToClient('This question does not exist',null,res);
+                }
+            });
+        } else {
+            sendToClient('Required Params question, question._id, and question.answer',null,res);
+        }
+    });
 
 
     app.post('/api/getsafeuserinfo', function (req,res) {
@@ -199,7 +222,12 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    res.send('you are not logged in');
+    res.send(200,
+    {
+        status: 'ERROR',
+        message: 'Please login to perform this action'
+        
+    });
 }
 
 function sendToClient (error,data,res) {

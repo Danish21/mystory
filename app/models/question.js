@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 
-var qandaSchema = mongoose.Schema({
+var questionSchema = mongoose.Schema({
 	author: {type:  mongoose.Schema.ObjectId, ref: 'user'},
 	questioner: {type:  mongoose.Schema.ObjectId, ref: 'user'},
-	question: String,
+	text: String,
 	answer: String,
 	public: Boolean
 });
 
-module.exports = mongoose.model('qanda', qandaSchema);
+module.exports = mongoose.model('question', questionSchema);
