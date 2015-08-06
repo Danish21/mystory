@@ -17,20 +17,18 @@
 		<div class="row" ng-repeat="question in questions">
 			<div class="col-sm-12">
 				<div class="row">
-					<div class="col-sm-12">
-						<p>
-							{{question.text}} 
-							<a href="" ng-click="question.showAnswerField = true" ng-hide="question.showAnswerField">update answer</a> 
-							<label class="checkbox-inline pull-right"><input ng-model="question.public" type="checkbox" ng-click="updateQuestionPublicity(question)">public</label>
-						</p>
+					<div class="col-sm-8">
+						<p>{{question.text}} <a href="" ng-click="question.showAnswerField = true" ng-hide="question.showAnswerField">update answer</a> </p>
 						<p ng-hide="question.showAnswerField">{{question.answer}}</p>
-
 						<textarea class="form-control" rows="3" ng-model="question.answer" ng-show="question.showAnswerField"></textarea>
 						<button class="btn btn-primary" ng-click="updateAnswer(question)" ng-show="question.showAnswerField">Update Anwser</button>
 					</div>
+					<div class="col-sm-4">
+						<p class="pull-right">Asked By <a href="/#/story/{{question.questioner._id}}">{{question.questioner.firstName}} {{question.questioner.lastName}}</a></p><br><br>
+						<label class="checkbox-inline pull-right"><input ng-model="question.public" type="checkbox" ng-click="updateQuestionPublicity(question)">public</label>
+					</div>
 				</div>
 				<hr>
-			</div>
 		</div>
 	</div>
 </div>

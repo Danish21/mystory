@@ -130,7 +130,7 @@ module.exports = function (app, passport) {
 
     app.get('/api/getansweredquestions', function (req,res) {
         var user_id = req.user._id; 
-        question.find({author: user_id, answer:{ $exists: true}}, function (error,questions) {
+        question.find({author: user_id, answer:{ $exists: true}}).populate('questioner','firstName lastName').exec(function (error,questions) {
             if (!error) {
                 sendToClient(null,questions,res);
             } else {
@@ -141,7 +141,7 @@ module.exports = function (app, passport) {
 
     app.get('/api/getunansweredquestions', function (req,res) {
         var user_id = req.user._id; 
-        question.find({author: user_id, answer: { $exists: false}}, function (error,questions) {
+        question.find({author: user_id, answer: { $exists: false}}).populate('questioner','firstName lastName').exec(function (error,questions) {
             if (!error) {
                 sendToClient(null,questions,res);
             } else {
