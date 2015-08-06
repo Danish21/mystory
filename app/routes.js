@@ -130,10 +130,9 @@ module.exports = function (app, passport) {
 
     app.get('/api/getansweredquestions', function (req,res) {
         var user_id = req.user._id; 
-        email.sendEmail();
-        qanda.find({_id: user_id, answer:{ $exists: true}}, function (error,qandas) {
+        question.find({author: user_id, answer:{ $exists: true}}, function (error,questions) {
             if (!error) {
-                sendToClient(null,qandas,res);
+                sendToClient(null,questions,res);
             } else {
                 sendToClient('Something Went Wrong',null,res);
             }
@@ -142,10 +141,9 @@ module.exports = function (app, passport) {
 
     app.get('/api/getunansweredquestions', function (req,res) {
         var user_id = req.user._id; 
-
-        qanda.find({_id: user_id, answer: { $exists: false}}, function (error,qandas) {
+        question.find({author: user_id, answer: { $exists: false}}, function (error,questions) {
             if (!error) {
-                sendToClient(null,qandas,res);
+                sendToClient(null,questions,res);
             } else {
                 sendToClient('Something Went Wrong',null,res);
             }
@@ -180,7 +178,27 @@ module.exports = function (app, passport) {
             
         }
     });
-
+    
+    app.post('/api/updateAnwser', isLoggedIn, function (req, res){
+        var givenQuestion = req.body.question;
+        if (givenQuestion && givenQuestion._id, givenQuestion.answer) {
+            question.findOne({_id: givenQuestion._id}, function (error, existingQuestion) {
+                if (existingQuestion) {
+                    if (existingQuestion.author.equals(req.user._id)) {
+                        question.update({_id: givenQuestion._id}, {$set: {answer:givenQuestion.answer}}, function (error,updatedQuestion) {
+                            sendToClient(error,updatedQuestion,res);
+                        });
+                    } else {
+                        sendToClient('You are not authorize to answer this question',null,res);
+                    }
+                } else {
+                    sendToClient('This question does not exist',null,res);
+                }
+            });
+        } else {
+            sendToClient('Required Params question, question._id, and question.answer',null,res);
+        }
+    });
 
 
     app.post('/api/getsafeuserinfo', function (req,res) {

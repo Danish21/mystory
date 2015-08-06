@@ -115,34 +115,29 @@ angular.module('appname.controllers',[])
 }])
 .controller('qandaCtrl',['$scope','profileService','$rootScope','toastr', function($scope,profileService,$rootScope,toastr){
 	$scope.getAnswered = function () {
-		console.log('in getAnswered');
 		profileService.getAnswered().then(function (result) {
 			if (result.status === 'OK') {
 				console.log(result.data);
-				$scope.QandAs = result.data;
+				$scope.questions = result.data;
 			}
 		});
 	};
-	$scope.getUnanswered = function (story) {
-		console.log('in getUnanswered');
+	$scope.getUnanswered = function () {
 		profileService.getUnanswered().then(function (result) {
 			if (result.status === 'OK') {
 				console.log(result.data);
-				$scope.QandAs = result.data;
+				$scope.questions = result.data;
 			}
 		});
 	};
-
-	// $scope.saveQuestion = function (question) {
-	// 	profileService.submitQuestion(question).then(function (result) {
-	// 		if (result.status === 'OK') {
-	// 			toastr.success('Question Submitted');
-	// 			$scope.askquestion = false;
-	// 		}
-	// 	});
-	// };
-
-	$scope.askquestion = false;
+	$scope.updateAnswer = function (question) {
+		profileService.updateAnswer(question).then(function (result) {
+			if (result.status === 'OK') {
+				toastr.success('Answer Updated');
+				question.showAnswerField = false;	
+			}
+		});
+	};
 
 }]);
 
