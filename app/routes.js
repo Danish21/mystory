@@ -1,6 +1,6 @@
 module.exports = function (app, passport) {
     var user   = require('../app/models/user'),
-        qanda  = require('../app/models/qanda'),
+        question  = require('../app/models/question'),
         uuid   = require('node-uuid');  
         emailService = require('../app/email.js');
 
@@ -163,18 +163,23 @@ module.exports = function (app, passport) {
         }
     });
 
-    // app.post('/api/submitquestion', function (req,res) {
-    //     var question = req.body.question;
+    app.post('/api/submitquestion', isLoggedIn, function (req,res) { //isLoggin only lets logged in user use this route/ if not loggedin not of this code will run
+        var submittedQuestion = req.body.question; //story the question field from the req.body object.....If field is not set then will be undefined
 
-    //     if (question) {
-    //         user.update({_id:userid}, {question: question}, function (error, user){
-    //             sendToClient(error,user,res);
-    //         });
-    //     } else {
-    //         sendToClient('Missing param question',null,res);
+        if (submittedQuestion) { //checking if it is undefined if it is we send an error message
+            var newQuestion  = new question(); //question is defined at the top of the page. Mongoose gives a constructor for the question schema shich we call here
+            //the reason we do this is that new Question has method called save which we will call to add the question to the database.
+            newQuestion.text = submittedQuestion.text; //story the question fields
+            newQuestion.author = submittedQuestion.author;
+            newQuestion.questioner = req.user._id; //we know the questioner is the person who is loggedin.
+            newQuestion.save( function (error,savedQuestion) { //save the question
+                sendToClient(error,savedQuestion,res); //pass it to our send to client function
+            })
+        } else {
+            sendToClient('Missing param question',null,res);
             
-    //     }
-    // });
+        }
+    });
 
 
 
@@ -199,7 +204,12 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    res.send('you are not logged in');
+    res.send(200,
+    {
+        status: 'ERROR',
+        message: 'Please login to perform this action'
+        
+    });
 }
 
 function sendToClient (error,data,res) {
