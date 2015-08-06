@@ -26,7 +26,6 @@
 						<textarea class="form-control" rows="3" ng-model="question.answer" ng-show="question.showAnswerField"></textarea>
 						<br ng-show="question.showAnswerField">
 						<button class="btn btn-primary" ng-click="updateAnswer(question)" ng-show="question.showAnswerField">Update Answer</button>
-						<button class="btn btn-primary" ng-click="updateAnswer(question)" ng-show="question.showAnswerField">Update Answer</button>
 					</div>
 					<div class="col-sm-4">
 						<p class="pull-right">Asked By <a href="/#/story/{{question.questioner._id}}">{{question.questioner.firstName}} {{question.questioner.lastName}}</a></p><br><br>
