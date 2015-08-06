@@ -101,6 +101,13 @@ angular.module('appname.services',[])
 				return result;
 			});
 		},
+		updateStoryPublicity: function (public) {
+			var url = "http://localhost:3000/api/updatestorypublicity";
+			return ulhttp.post(url,{public: public}).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			}); 
+		},
 		confirmUserEmail: function (confirmationCode) {
 			var url = "http://localhost:3000/api/confirmemail";
 			return ulhttp.post(url,{confirmationCode: confirmationCode}).then(function (result) {

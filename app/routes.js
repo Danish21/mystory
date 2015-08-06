@@ -219,14 +219,27 @@ module.exports = function (app, passport) {
              sendToClient('Required Params question, and question._id',null,res);
         }
     });
+    
+    app.post('/api/updatestorypublicity', isLoggedIn, function (req, res) {
+        user.update({_id: req.user._id}, {$set: {public: req.body.public}}, function (error,updatedUser) {
+            sendToClient(error,updatedUser,res);
+        });
+    });
 
 
     app.post('/api/getsafeuserinfo', function (req,res) {
         var userid = req.body.userid;
-
         if (userid) {
-            user.findOne({_id:userid}, {_id:1, firstName:1, lastName:1,story:1}, function(error,user){
-                sendToClient(error,user,res);
+            user.findOne({_id:userid}, {_id:1, firstName:1, lastName:1,story:1, public: 1}, function(error,returnedUser){
+                if (!error) {
+                    if (returnedUser.public) {
+                        sendToClient(error,returnedUser,res);
+                    } else {
+                        sendToClient('This story is not public',null, res);
+                    }
+                } else {
+                    sendToClient('Something went wrong', null, res);
+                }
             });
         } else {
             sendToClient('Missing param userid',null,res);

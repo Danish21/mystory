@@ -7,7 +7,7 @@ angular.module('appname.controllers',[])
 .controller('homeCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope', function ($scope,logoutService,toastr,$location,$rootScope,universities) {
  	
  }])
-.controller('storyCtrl', ['$scope','$rootScope','$routeParams', 'storyService','toastr',function ($scope,$rootScope,$routeParams,storyService,toastr) {
+.controller('storyCtrl', ['$scope','$rootScope','$routeParams', 'storyService','toastr','$location', function ($scope,$rootScope,$routeParams,storyService,toastr,$location) {
 	//Include anything we want to use in t controller in the array and the function that meaning any service or adittioanl libraries like the toastr, the place in the array and place of 
 	//inclusion in the fuction must match. I.E ['$scope','toastr', function(toastr,$scope)] will not work as $scope should be first in the function
 	$scope.init = function () {
@@ -16,6 +16,8 @@ angular.module('appname.controllers',[])
 			storyService.getSafeUserInfo($scope.userid).then(function (result){
 				if (result.status === 'OK') {
 					$scope.user = result.data;
+				} else {
+					$location.path('/login');
 				}
 			});
 		}
@@ -98,8 +100,18 @@ angular.module('appname.controllers',[])
 			}
 		});
 	};
-	$scope.editstory =false;
-	$scope.getuserinfo();
+	$scope.updateStoryPublicity = function () {
+		profileService.updateStoryPublicity($scope.user.public).then(function (result) {
+			if (result.status === 'OK') {
+				toastr.success('Story publicity saved');
+			}
+		});
+	}
+	$scope.init = function () {
+		$scope.editstory =false;
+		$scope.getuserinfo();
+	};
+	$scope.init();
 }])
 .controller('confirmCtrl',['$scope','profileService','$rootScope','toastr','$location', function($scope,profileService,$rootScope,toastr,$location){
 	$scope.confirmUserEmail = function (confirmationCode) {
