@@ -136,16 +136,16 @@ angular.module('appname.controllers',[])
 	$scope.getAnswered = function () {
 		profileService.getAnswered().then(function (result) {
 			if (result.status === 'OK') {
-				console.log(result.data);
 				$scope.questions = result.data;
+				$scope.showAnswered = true;
 			}
 		});
 	};
 	$scope.getUnanswered = function () {
 		profileService.getUnanswered().then(function (result) {
 			if (result.status === 'OK') {
-				console.log(result.data);
 				$scope.questions = result.data;
+				$scope.showAnswered = false;
 			}
 		});
 	};
@@ -163,7 +163,11 @@ angular.module('appname.controllers',[])
 				toastr.success('Question publicity updated');
 			}
 		});
-	}
-
+	};
+	$scope.init = function () {
+		$scope.getAnswered();
+		$scope.showAnswered = true;
+	};
+	$scope.init();
 }]);
 
