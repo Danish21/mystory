@@ -1,9 +1,10 @@
 // load the things we need
 var mongoose = require('mongoose');
-var bcrypt   = require('bcrypt-nodejs');
+	bcrypt   = require('bcrypt-nodejs'),
+	BaseSchema = require('./base.js');
 
 // define the schema for our user model
-var userSchema = mongoose.Schema({
+var userSchema = new BaseSchema({
 	firstName : {type: String, default: 'firstname'},
 	lastName: {type: String, default: 'lastname'},
 	university: {type: String, default: ''},
@@ -11,12 +12,12 @@ var userSchema = mongoose.Schema({
 	confirmationCode: {type: String},
 	isConfirmed: {type: Boolean, default: false},
 	isVerified: {type: Boolean, default: false},
+	public: {type: Boolean, default: false},
     local            : {
         email        : String,
         password     : String
     },
     story: String
-
 });
 
 // generating a hash
@@ -30,4 +31,4 @@ userSchema.methods.validPassword = function(password) {
 };
 
 // create the model for users and expose it to our app
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('user', userSchema);

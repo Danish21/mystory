@@ -94,6 +94,20 @@ angular.module('appname.services',[])
 				return result;
 			});
 		},
+		updateQuestionPublicity: function (question) {
+			var url = "http://localhost:3000/api/updatequestionpublicity";
+			return ulhttp.post(url,{question: question}).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			});
+		},
+		updateStoryPublicity: function (public) {
+			var url = "http://localhost:3000/api/updatestorypublicity";
+			return ulhttp.post(url,{public: public}).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			}); 
+		},
 		confirmUserEmail: function (confirmationCode) {
 			var url = "http://localhost:3000/api/confirmemail";
 			return ulhttp.post(url,{confirmationCode: confirmationCode}).then(function (result) {
@@ -116,6 +130,13 @@ angular.module('appname.services',[])
 		submitQuestion: function (question) {
 			var url = "http://localhost:3000/api/submitquestion";
 			return ulhttp.post(url,{question: question}).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			});
+		},
+		getPublicQuestions: function (userid) {
+			var url = "http://localhost:3000/api/getpublicquestions";
+			return ulhttp.post(url,{userid:userid}).then(function (result) {
 				result = ulhttp.handleError(result);
 				return result;
 			});

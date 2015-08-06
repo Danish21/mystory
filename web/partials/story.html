@@ -2,10 +2,22 @@
 <br>
 <div class="row">
 	<div class="col-sm-8 col-sm-offset-2 appname-form scrollWhenBig">
-		<h1>{{user.firstName}} {{user.lastName}}'s story</h1>
-		<div class="row" ng-bind-html="user.story"></div>
 		<div class="row">
-			<div class="col-sm-12 appname-form">
+			<div class="col-sm-12">
+				<h1>{{user.firstName}} {{user.lastName}}'s story</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12" ng-bind-html="user.story"></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<h3>FAQ</h3>
+				<p ng-repeat="question in questions">{{question.text}}<br>{{question.answer}}<hr></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
 				<!--In app.js we gave this html a controller all this basically means is that there is an object called $scope that this html file and story controller share -->
 				<a href="" ng-click="askquestion=true;" ng-hide="askquestion || !$root.currentUser">Have a question?</a><br>
 				<!--Any variable inside ng-something="" is assumed by the angular to mean $scope.variable name so here in ng-click it is setting scope.askquestion = true when the link is click -->

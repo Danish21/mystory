@@ -1,30 +1,43 @@
+<br>
+<br>
 <div class="row">
 	<div class="col-sm-8 col-sm-offset-2 whiteBackground appname-form">	
 		<div class="row">
 			<div class="col-sm-4">
 				<br>
-				<button class="btn btn-primary pull-left" ng-click="getAnswered()">Show Answered</button>
+				<button class="btn btn-default pull-left" ng-click="getAnswered()" ng-class="{'btn-primary': showAnswered}">Show Answered</button>
 			</div>
 			<div class="col-sm-4">
 				<h1 class="text-center">Q & A</h1>
 			</div>
 			<div class="col-sm-4">
 				<br>
-				<button class="btn btn-primary pull-right" ng-click="getUnanswered()">Show Unanswered</button>
+				<button class="btn btn-default pull-right" ng-click="getUnanswered()" ng-class="{'btn-primary': !showAnswered}">Show Unanswered</button>
 			</div>
 		</div>
 		<br>
-		<div class="row" ng-repeat="question in questions">
+		<div class="row" ng-repeat="question in questions" ng-show="questions.length > 0">
 			<div class="col-sm-12">
 				<div class="row">
-					<div class="col-sm-12">
-						<p>{{question.text}} <a href="" ng-click="question.showAnswerField = true" ng-hide="question.showAnswerField">update answer</a></p>
-						<p ng-hide="question.showAnswerField">{{question.answer}}</p>
+					<div class="col-sm-8">
+						<p>{{question.text}} <a href="" ng-click="question.showAnswerField = true" ng-hide="question.showAnswerField">update answer</a> </p>
+						<p ng-hide="question.showAnswerField || question.answer">Not yet answered</p>
+						<p ng-hide="question.showAnswerField || !question.answer">{{question.answer}}</p>
 						<textarea class="form-control" rows="3" ng-model="question.answer" ng-show="question.showAnswerField"></textarea>
+						<br ng-show="question.showAnswerField">
 						<button class="btn btn-primary" ng-click="updateAnswer(question)" ng-show="question.showAnswerField">Update Anwser</button>
+					</div>
+					<div class="col-sm-4">
+						<p class="pull-right">Asked By <a href="/#/story/{{question.questioner._id}}">{{question.questioner.firstName}} {{question.questioner.lastName}}</a></p><br><br>
+						<label class="checkbox-inline pull-right"><input ng-model="question.public" type="checkbox" ng-click="updateQuestionPublicity(question)">public</label>
 					</div>
 				</div>
 				<hr>
+			</div>
+		</div>
+		<div class="row" ng-hide="questions.length > 0">
+			<div class="col-sm-12">
+				<p>No questions</p>
 			</div>
 		</div>
 	</div>

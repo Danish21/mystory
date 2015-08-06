@@ -130,7 +130,7 @@ module.exports = function (app, passport) {
 
     app.get('/api/getansweredquestions', function (req,res) {
         var user_id = req.user._id; 
-        question.find({author: user_id, answer:{ $exists: true}}, function (error,questions) {
+        question.find({author: user_id, answer:{ $exists: true}}).populate('questioner','firstName lastName').exec(function (error,questions) {
             if (!error) {
                 sendToClient(null,questions,res);
             } else {
@@ -141,7 +141,7 @@ module.exports = function (app, passport) {
 
     app.get('/api/getunansweredquestions', function (req,res) {
         var user_id = req.user._id; 
-        question.find({author: user_id, answer: { $exists: false}}, function (error,questions) {
+        question.find({author: user_id, answer: { $exists: false}}).populate('questioner','firstName lastName').exec(function (error,questions) {
             if (!error) {
                 sendToClient(null,questions,res);
             } else {
@@ -189,7 +189,7 @@ module.exports = function (app, passport) {
                             sendToClient(error,updatedQuestion,res);
                         });
                     } else {
-                        sendToClient('You are not authorize to answer this question',null,res);
+                        
                     }
                 } else {
                     sendToClient('This question does not exist',null,res);
@@ -199,18 +199,61 @@ module.exports = function (app, passport) {
             sendToClient('Required Params question, question._id, and question.answer',null,res);
         }
     });
+    app.post('/api/updatequestionpublicity', isLoggedIn, function (req, res) {
+        var givenQuestion = req.body.question;
+        if (givenQuestion && givenQuestion._id) {
+            question.findOne({_id: givenQuestion._id}, function (error, existingQuestion) {
+                if (existingQuestion) {
+                    if (existingQuestion.author.equals(req.user._id)) {
+                        question.update({_id: givenQuestion._id}, {$set: {public: givenQuestion.public}}, function (error,updatedQuestion) {
+                            sendToClient(error,updatedQuestion,res);
+                        });
+                    } else {
+                        sendToClient('You are not authorize to answer this question',null,res);
+                    }
+                } else {
+                    sendToClient('This question does not exist',null,res);
+                }
+            });
+        } else {
+             sendToClient('Required Params question, and question._id',null,res);
+        }
+    });
+    
+    app.post('/api/updatestorypublicity', isLoggedIn, function (req, res) {
+        user.update({_id: req.user._id}, {$set: {public: req.body.public}}, function (error,updatedUser) {
+            sendToClient(error,updatedUser,res);
+        });
+    });
 
 
     app.post('/api/getsafeuserinfo', function (req,res) {
         var userid = req.body.userid;
-
         if (userid) {
-            user.findOne({_id:userid}, {_id:1, firstName:1, lastName:1,story:1}, function(error,user){
-                sendToClient(error,user,res);
+            user.findOne({_id:userid}, {_id:1, firstName:1, lastName:1,story:1, public: 1}, function(error,returnedUser){
+                if (!error) {
+                    if (returnedUser.public) {
+                        sendToClient(error,returnedUser,res);
+                    } else {
+                        sendToClient('This story is not public',null, res);
+                    }
+                } else {
+                    sendToClient('Something went wrong', null, res);
+                }
             });
         } else {
             sendToClient('Missing param userid',null,res);
             
+        }
+    });
+    app.post('/api/getpublicquestions', function (req, res) {
+        var userid = req.body.userid;
+        if (userid) {
+            question.find({author: userid, public: true}, function (error, questions) {
+                sendToClient(error,questions,res);
+            });
+        } else {
+            sendToClient('Missing param userid',null,res);
         }
     });
 

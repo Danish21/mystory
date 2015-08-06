@@ -7,19 +7,28 @@ angular.module('appname.controllers',[])
 .controller('homeCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope', function ($scope,logoutService,toastr,$location,$rootScope,universities) {
  	
  }])
-.controller('storyCtrl', ['$scope','$rootScope','$routeParams', 'storyService','toastr',function ($scope,$rootScope,$routeParams,storyService,toastr) {
+.controller('storyCtrl', ['$scope','$rootScope','$routeParams', 'storyService','toastr','$location', function ($scope,$rootScope,$routeParams,storyService,toastr,$location) {
 	//Include anything we want to use in t controller in the array and the function that meaning any service or adittioanl libraries like the toastr, the place in the array and place of 
 	//inclusion in the fuction must match. I.E ['$scope','toastr', function(toastr,$scope)] will not work as $scope should be first in the function
 	$scope.init = function () {
 		$scope.userid = $routeParams.userid;
 		if ($scope.userid) { 
-			storyService.getSafeUserInfo($scope.userid).then(function (result){
+			storyService.getSafeUserInfo($scope.userid).then(function (result) {
 				if (result.status === 'OK') {
 					$scope.user = result.data;
+				} else {
+					$location.path('/login');
+				}
+			});
+			storyService.getPublicQuestions($scope.userid).then(function (result) {
+				if(result.status === 'OK') {
+					$scope.questions = result.data;
+					console.log($scope.questions);
 				}
 			});
 		}
 	};
+
 	$scope.submitQuestion = function () {
 		if ($scope.questionText) { //check if there actually text typed in
 			var question = { //creating a question object because this what the 
@@ -98,8 +107,18 @@ angular.module('appname.controllers',[])
 			}
 		});
 	};
-	$scope.editstory =false;
-	$scope.getuserinfo();
+	$scope.updateStoryPublicity = function () {
+		profileService.updateStoryPublicity($scope.user.public).then(function (result) {
+			if (result.status === 'OK') {
+				toastr.success('Story publicity saved');
+			}
+		});
+	}
+	$scope.init = function () {
+		$scope.editstory =false;
+		$scope.getuserinfo();
+	};
+	$scope.init();
 }])
 .controller('confirmCtrl',['$scope','profileService','$rootScope','toastr','$location', function($scope,profileService,$rootScope,toastr,$location){
 	$scope.confirmUserEmail = function (confirmationCode) {
@@ -117,16 +136,16 @@ angular.module('appname.controllers',[])
 	$scope.getAnswered = function () {
 		profileService.getAnswered().then(function (result) {
 			if (result.status === 'OK') {
-				console.log(result.data);
 				$scope.questions = result.data;
+				$scope.showAnswered = true;
 			}
 		});
 	};
 	$scope.getUnanswered = function () {
 		profileService.getUnanswered().then(function (result) {
 			if (result.status === 'OK') {
-				console.log(result.data);
 				$scope.questions = result.data;
+				$scope.showAnswered = false;
 			}
 		});
 	};
@@ -138,6 +157,17 @@ angular.module('appname.controllers',[])
 			}
 		});
 	};
-
+	$scope.updateQuestionPublicity = function (question) {
+		profileService.updateQuestionPublicity(question).then(function (result) {
+			if (result.status === 'OK') {
+				toastr.success('Question publicity updated');
+			}
+		});
+	};
+	$scope.init = function () {
+		$scope.getAnswered();
+		$scope.showAnswered = true;
+	};
+	$scope.init();
 }]);
 

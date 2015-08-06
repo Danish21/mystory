@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+	BaseSchema = require('./base.js');
 
-var questionSchema = mongoose.Schema({
+var questionSchema = new BaseSchema({
 	author: {type:  mongoose.Schema.ObjectId, ref: 'user'},
 	questioner: {type:  mongoose.Schema.ObjectId, ref: 'user'},
 	text: String,
