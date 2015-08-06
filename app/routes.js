@@ -189,7 +189,7 @@ module.exports = function (app, passport) {
                             sendToClient(error,updatedQuestion,res);
                         });
                     } else {
-                        sendToClient('You are not authorize to answer this question',null,res);
+                        
                     }
                 } else {
                     sendToClient('This question does not exist',null,res);
@@ -197,6 +197,26 @@ module.exports = function (app, passport) {
             });
         } else {
             sendToClient('Required Params question, question._id, and question.answer',null,res);
+        }
+    });
+    app.post('/api/updatequestionpublicity', isLoggedIn, function (req, res) {
+        var givenQuestion = req.body.question;
+        if (givenQuestion && givenQuestion._id) {
+            question.findOne({_id: givenQuestion._id}, function (error, existingQuestion) {
+                if (existingQuestion) {
+                    if (existingQuestion.author.equals(req.user._id)) {
+                        question.update({_id: givenQuestion._id}, {$set: {public: givenQuestion.public}}, function (error,updatedQuestion) {
+                            sendToClient(error,updatedQuestion,res);
+                        });
+                    } else {
+                        sendToClient('You are not authorize to answer this question',null,res);
+                    }
+                } else {
+                    sendToClient('This question does not exist',null,res);
+                }
+            });
+        } else {
+             sendToClient('Required Params question, and question._id',null,res);
         }
     });
 

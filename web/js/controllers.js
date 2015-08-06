@@ -138,6 +138,13 @@ angular.module('appname.controllers',[])
 			}
 		});
 	};
+	$scope.updateQuestionPublicity = function (question) {
+		profileService.updateQuestionPublicity(question).then(function (result) {
+			if (result.status === 'OK') {
+				toastr.success('Question publicity updated');
+			}
+		});
+	}
 
 }]);
 

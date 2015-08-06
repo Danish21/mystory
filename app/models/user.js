@@ -11,12 +11,12 @@ var userSchema = mongoose.Schema({
 	confirmationCode: {type: String},
 	isConfirmed: {type: Boolean, default: false},
 	isVerified: {type: Boolean, default: false},
+	storyPublic: {type: Boolean, default: false},
     local            : {
         email        : String,
         password     : String
     },
     story: String
-
 });
 
 // generating a hash
