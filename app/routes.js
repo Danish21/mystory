@@ -246,6 +246,16 @@ module.exports = function (app, passport) {
             
         }
     });
+    app.post('/api/getpublicquestions', function (req, res) {
+        var userid = req.body.userid;
+        if (userid) {
+            question.find({author: userid, public: true}, function (error, questions) {
+                sendToClient(error,questions,res);
+            });
+        } else {
+            sendToClient('Missing param userid',null,res);
+        }
+    });
 
     
 };

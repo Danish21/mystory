@@ -133,6 +133,13 @@ angular.module('appname.services',[])
 				result = ulhttp.handleError(result);
 				return result;
 			});
+		},
+		getPublicQuestions: function (userid) {
+			var url = "http://localhost:3000/api/getpublicquestions";
+			return ulhttp.post(url,{userid:userid}).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			});
 		}
 	};
 });

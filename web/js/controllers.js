@@ -13,15 +13,22 @@ angular.module('appname.controllers',[])
 	$scope.init = function () {
 		$scope.userid = $routeParams.userid;
 		if ($scope.userid) { 
-			storyService.getSafeUserInfo($scope.userid).then(function (result){
+			storyService.getSafeUserInfo($scope.userid).then(function (result) {
 				if (result.status === 'OK') {
 					$scope.user = result.data;
 				} else {
 					$location.path('/login');
 				}
 			});
+			storyService.getPublicQuestions($scope.userid).then(function (result) {
+				if(result.status === 'OK') {
+					$scope.questions = result.data;
+					console.log($scope.questions);
+				}
+			});
 		}
 	};
+
 	$scope.submitQuestion = function () {
 		if ($scope.questionText) { //check if there actually text typed in
 			var question = { //creating a question object because this what the 
