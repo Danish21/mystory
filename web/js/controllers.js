@@ -40,9 +40,11 @@ angular.module('appname.controllers',[])
 			//and included //$http in our controller
 			if(confirm("Are you sure you want to submit the question?")){
 				if(result.status === 'OK') {
-					toastr.success('Your Question has been Submitted');
-					$scope.questionText = null;
-					$scope.askquestion = false; 
+					if(confirm("Are you sure you want to submit the question?")){
+						toastr.success('Your Question has been Submitted');
+						$scope.questionText = null;
+						$scope.askquestion = false;
+					}
 				}
 			}
 			});
