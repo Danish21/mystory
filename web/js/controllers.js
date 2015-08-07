@@ -38,8 +38,8 @@ angular.module('appname.controllers',[])
 			storyService.submitQuestion(question).then(function (result) { //calling the service right here to prevent code reuse if some other place needs to calls this method
 			//If you follow this service that ultimately all this lead to is an $http.post("http://localhost:3000/api/submitquestion", question); which we could of done right here if we want to
 			//and included //$http in our controller
-				if(result.status === 'OK') {
-					if(confirm("Are you sure you want to submit the question?")){
+				if(confirm("Are you sure you want to submit the question?")){				
+					if(result.status === 'OK') {
 						toastr.success('Your Question has been Submitted');
 						$scope.questionText = null;
 						$scope.askquestion = false;
