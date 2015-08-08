@@ -4,8 +4,43 @@ angular.module('appname.controllers',[])
         	logoutService.logout();
         };
  }])
-.controller('homeCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope', function ($scope,logoutService,toastr,$location,$rootScope,universities) {
- 	
+.controller('homeCtrl', ['$scope', 'logginService', 'logoutService','toastr','$location','$rootScope','universities', function ($scope,logginService,logoutService,toastr,$location,$rootScope,universities) {
+ 	$scope.login = function () {
+		if ($scope.email && $scope.password) {
+			logginService.loggin($scope.email,$scope.password).then(function (result) {
+				if(result.status === 'OK'){
+					$rootScope.currentUser = result.user;
+					$location.path('/profile');
+					toastr.success('Logged In');
+				}
+			});
+		} else {
+			toastr.error('Must provide a valid email and password');
+		}
+	};
+	$scope.signup = function () {
+		if($scope.firstName && $scope.lastName && $scope.email && $scope.password){
+			var data= {
+				email: $scope.email,
+				password: $scope.password,
+				firstName: $scope.firstName,
+				lastName: $scope.lastName,
+				department: $scope.department,
+				university: $scope.university
+			};
+			signupService.signup(data).then(function (result) {
+				if(result.status === 'OK'){
+					toastr.success('We have emailed you a link to confirm your email. Please confirm your email and you will ready to go!');
+					$location.path('/login');
+				}
+			});
+		} else {
+			toastr.error('All fields are required');
+		}
+	};
+	$scope.universities = universities.names.sort(); //need to make it so list is already sorted
+	$scope.departments = universities.departments.sort();
+
  }])
 .controller('storyCtrl', ['$scope','$rootScope','$routeParams', 'storyService','toastr','$location', function ($scope,$rootScope,$routeParams,storyService,toastr,$location) {
 	//Include anything we want to use in t controller in the array and the function that meaning any service or adittioanl libraries like the toastr, the place in the array and place of 
