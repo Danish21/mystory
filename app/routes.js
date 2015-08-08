@@ -181,7 +181,7 @@ module.exports = function (app, passport) {
     
     app.post('/api/updateAnwser', isLoggedIn, function (req, res){
         var givenQuestion = req.body.question;
-        if (givenQuestion && givenQuestion._id, givenQuestion.answer) {
+        if (givenQuestion && givenQuestion._id) {
             question.findOne({_id: givenQuestion._id}, function (error, existingQuestion) {
                 if (existingQuestion) {
                     if (existingQuestion.author.equals(req.user._id)) {
@@ -196,7 +196,7 @@ module.exports = function (app, passport) {
                 }
             });
         } else {
-            sendToClient('Required Params question, question._id, and question.answer',null,res);
+            sendToClient('Required Params question, question._id',null,res);
         }
     });
     app.post('/api/updatequestionpublicity', isLoggedIn, function (req, res) {

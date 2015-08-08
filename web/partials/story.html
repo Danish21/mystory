@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<h3>FAQ</h3>
-				<p ng-repeat="question in questions">{{question.text}}<br>{{question.answer}}<hr></p>
+				<div ng-repeat="question in questions">{{question.text}}<br><span ng-show="question.answer">{{question.answer}}</span><span ng-hide="question.answer">Not yet answered</span><hr></div>
 			</div>
 		</div>
 		<div class="row">

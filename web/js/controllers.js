@@ -166,6 +166,10 @@ angular.module('appname.controllers',[])
 			}
 		});
 	};
+	$scope.clearAnswer = function (question) {
+		question.answer = null;
+		$scope.updateAnswer(question);
+	};
 	$scope.init = function () {
 		$scope.getAnswered();
 		$scope.showAnswered = true;
