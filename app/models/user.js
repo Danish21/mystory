@@ -17,6 +17,7 @@ var userSchema = new BaseSchema({
         email        : String,
         password     : String
     },
+    title: String,
     story: String
 });
 

@@ -3,8 +3,14 @@
 <div class="row ">
 	<div class="col-sm-8 col-sm-offset-2 appname-form scrollWhenBig">
 		<div class="row">
-			<div class="col-sm-10">
-				<h1>{{user.firstName}} {{user.lastName}}'s story</h1>
+			<div class="col-sm-10" ng-hide="editTitle">
+				<h1>{{user.title}}</h1>
+				<a href="" ng-click="editTitle = true">edit</a>
+			</div>
+			<div class="col-sm-10" ng-show="editTitle">
+				<label>Title</label><br>
+				<input type="text" ng-model="user.title">
+				<a href="" ng-click="saveTitle(user.title)">save</a>
 			</div>
 			<div class="col-sm-2">
 				<label class="checkbox-inline pull-right"><input ng-model="user.public" type="checkbox" ng-click="updateStoryPublicity(question)">Public</label>
@@ -15,12 +21,15 @@
 				<br>
 				<br>
 				<text-angular ng-model="user.story"></text-angular>
+
 			</div>
 		</div>
 		<br>
 		<div class="row">
-			<div class="col-sm-12"ng-bind-html="user.story" ng-hide="editstory">
+			<div class="col-sm-12" ng-hide="user.story || editstory"> 
+				<p>Once upon a time I was born......</p>
 			</div>
+			<div class="col-sm-12"ng-bind-html="user.story" ng-hide="editstory"></div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12">

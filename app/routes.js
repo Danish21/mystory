@@ -72,6 +72,7 @@ module.exports = function (app, passport) {
                     newUser.lastName = req.body.lastName;
                     newUser.university = req.body.university;
                     newUser.department = req.body.department;
+                    newUser.title = newUser.firstName + ' ' + newUser.lastName + '\'s Story';
                     newUser.confirmationCode = uuid.v4();
                     newUser.save(function(err) {
                         if (err){
@@ -117,7 +118,7 @@ module.exports = function (app, passport) {
 // =============================================================================
 // NORMAL ROUTES ===============================================================  
 // =============================================================================
-    app.get('/api/getuserinfo', isLoggedIn, function (req,res) {
+    app.get('/api/getuserinfo', isLoggedIn, function (req, res) {
         var user_id = req.user._id; 
         user.findOne({_id: user_id}, function (error,user) {
             if (!error) {
@@ -128,7 +129,17 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get('/api/getansweredquestions', function (req,res) {
+    app.get('/api/getuserlist', function (req, res) {
+        user.find({}, {firstName:1, lastName:1, title: 1}, function (error, users) {
+            if (!error) {
+                sendToClient(null,users,res);
+            } else {
+                sendToClient('Something Went Wrong',null,res);
+            }
+        });
+    })
+
+    app.get('/api/getansweredquestions', function (req, res) {
         var user_id = req.user._id; 
         question.find({author: user_id, answer:{ $exists: true}}).populate('questioner','firstName lastName').exec(function (error,questions) {
             if (!error) {
@@ -139,7 +150,7 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get('/api/getunansweredquestions', function (req,res) {
+    app.get('/api/getunansweredquestions', function (req, res) {
         var user_id = req.user._id; 
         question.find({author: user_id, answer: { $exists: false}}).populate('questioner','firstName lastName').exec(function (error,questions) {
             if (!error) {
@@ -150,7 +161,7 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.post('/api/updatestory', isLoggedIn, function (req,res) {
+    app.post('/api/updatestory', isLoggedIn, function (req, res) {
         var story = req.body.story;
         if (story) {
             user.update({_id: req.user._id}, {story: story}, function (error, updatedUser) {
@@ -160,8 +171,18 @@ module.exports = function (app, passport) {
             sendToClient('Missing param story',null,res);
         }
     });
+    app.post('/api/updatetitle', isLoggedIn, function (req, res) {
+        var title = req.body.title;
+        if (title) {
+            user.update({_id: req.user._id}, {title: title}, function (error, updatedUser) {
+                sendToClient(error, updatedUser,res);
+            });
+        } else {
+            sendToClient('Missing param title',null,res);
+        }
+    });
 
-    app.post('/api/submitquestion', isLoggedIn, function (req,res) { //isLoggin only lets logged in user use this route/ if not loggedin not of this code will run
+    app.post('/api/submitquestion', isLoggedIn, function (req, res) { //isLoggin only lets logged in user use this route/ if not loggedin not of this code will run
         var submittedQuestion = req.body.question; //story the question field from the req.body object.....If field is not set then will be undefined
 
         if (submittedQuestion) { //checking if it is undefined if it is we send an error message

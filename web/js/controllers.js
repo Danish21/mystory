@@ -1,10 +1,29 @@
 angular.module('appname.controllers',[])
-.controller('BaseCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope', function ($scope,logoutService,toastr,$location,$rootScope) {
+.controller('BaseCtrl', ['$scope', 'logoutService','toastr','$location','$rootScope','searchService', function ($scope,logoutService,toastr,$location,$rootScope,searchService) {
         $scope.logout = function () {
         	logoutService.logout();
         };
+        $scope.getUserList = function () {
+        	searchService.getUserList().then(function (result) {
+        		if (result.status === 'OK') {
+        			$rootScope.userlist = result.data;	
+        			console.log($rootScope.userlist);
+        		} 
+        	});
+        };
+        $scope.onSelect = function ($item, $model, $label) {
+        	console.log($item);
+        	console.log($model);
+        	console.log($label);
+        	$scope.story = '';
+        	$location.path('/story/'+$item._id);
+        };
+        $scope.init = function () {
+        	$scope.getUserList();
+        };
+        $scope.init();
  }])
-.controller('homeCtrl', ['$scope', 'logginService', 'logoutService','toastr','$location','$rootScope','universities', function ($scope,logginService,logoutService,toastr,$location,$rootScope,universities) {
+.controller('homeCtrl', ['$scope', 'logginService', 'logoutService','toastr','$location','$rootScope','universities','signupService', function ($scope,logginService,logoutService,toastr,$location,$rootScope,universities,signupService) {
  	$scope.login = function () {
 		if ($scope.email && $scope.password) {
 			logginService.loggin($scope.email,$scope.password).then(function (result) {
@@ -19,10 +38,10 @@ angular.module('appname.controllers',[])
 		}
 	};
 	$scope.signup = function () {
-		if($scope.firstName && $scope.lastName && $scope.email && $scope.password){
+		if($scope.firstName && $scope.lastName && $scope.signupemail && $scope.signuppassword){
 			var data= {
-				email: $scope.email,
-				password: $scope.password,
+				email: $scope.signupemail,
+				password: $scope.signuppassword,
 				firstName: $scope.firstName,
 				lastName: $scope.lastName,
 				department: $scope.department,
@@ -136,6 +155,14 @@ angular.module('appname.controllers',[])
 			} 
 		});
 	};
+	$scope.saveTitle = function (title) {
+		profileService.updateTitle(title).then(function (result) {
+			if(result.status === 'OK') {
+				toastr.success('Title Saved');
+				$scope.editTitle = false;
+			}
+		});
+	}
 	$scope.saveStory = function (story) {
 		profileService.updateStory(story).then(function (result) {
 			if (result.status === 'OK') {

@@ -38,10 +38,21 @@ angular.module('appname.services',[])
 			ulhttp.get(url).then(function (result) {
 				if(result.data.status === 'OK'){
 					toastr.success('Logged Out');
-					$location.path('/login');
+					$location.path('/');
 				} else {
 					toastr.error('Something went wrong');
 				}
+			});
+		}
+	};
+})
+.factory('searchService', function (ulhttp) {
+	return {
+		getUserList : function (data) {
+			var url = "http://localhost:3000/api/getuserlist";
+			return ulhttp.get(url,data).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
 			});
 		}
 	};
@@ -69,6 +80,13 @@ angular.module('appname.services',[])
 		updateStory: function (story) {
 			var url = "http://localhost:3000/api/updatestory";
 			return ulhttp.post(url,{story: story}).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			});
+		},
+		updateTitle: function (title) {
+			var url = "http://localhost:3000/api/updatetitle";
+			return ulhttp.post(url,{title: title}).then(function (result) {
 				result = ulhttp.handleError(result);
 				return result;
 			});

@@ -1,8 +1,8 @@
-angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', 'appname.services','ngAnimate','toastr','textAngular','UniversityService']).
+angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', 'appname.services','ngAnimate','toastr','textAngular','UniversityService','ui.bootstrap']).
 	config(['$routeProvider', function($routeProvider){
 		'use strict';
 		$routeProvider.
-		 when('/', {title: 'Home', templateUrl: 'partials/home.html', navLocation: 'navHome', controller: 'homeCtrl'})
+		 when('/', {title: 'Home', templateUrl: 'partials/home.html', navLocation: 'navHome', controller: 'homeCtrl', resolve: {loginRedirect: loginRedirect}})
 		.when('/login', {title: 'Home', templateUrl: 'partials/login.html', navLocation: 'navLogin', controller: 'tempCtrl', resolve: {loginRedirect: loginRedirect }})
 		.when('/signup', {title: 'signup', templateUrl: 'partials/signup.html', navLocation: 'navSignup', controller: 'signupCtrl'})
 		.when('/profile', {title: 'Profile', templateUrl: 'partials/profile.html', navLocation: 'navProfile', controller: 'profileCtrl', resolve: {logincheck: checkLogin}})
@@ -52,11 +52,11 @@ angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', '
 			else {
 				$rootScope.currentUser = undefined;
 				deferred.reject();
-				$location.url('/login');
+				$location.url('/');
 				toastr.error('Please Login First');
 			}
 		}).error(function(result){
-			$location.url('/login');
+			$location.url('/');
 		});
 		
 	};

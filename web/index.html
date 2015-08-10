@@ -12,7 +12,7 @@
 	</head>
 <body ng-class="{ 'noBackground': $root.navLocation === 'navHome'}">
 	
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-hide="$root.navLocation === 'navHome' ">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-hid="$root.navLocation === 'navHome'">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -23,6 +23,16 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#/">App Name</a>
+                <div class="pull-right">
+                    <form class="navbar-form" role="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="story" typeahead="user.title for user in $root.userlist" placeholder="Search for a story" name="srch-term" id="srch-term" typeahead-on-select="onSelect($item, $model, $label)">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
@@ -32,12 +42,6 @@
                     </li>
                     <li>
                         <a href="#/q&a" ng-show="$root.currentUser">Q&A</a>
-                    </li>
-                    <li>
-                        <a href="#/login" ng-hide="$root.currentUser">Login</a>
-                    </li>
-                    <li>
-                        <a href="#/signup" ng-hide="$root.currentUser">Signup</a>
                     </li>
                     <li>
                         <a href="" ng-show="$root.currentUser" ng-click="logout()">Sign out</a>
@@ -55,6 +59,9 @@
     <script type= "text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
     <script type= "text/javascript" src="bower_components/angular-resource/angular-resource.min.js"></script>
     <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
     <script type="text/javascript" src="/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
     <script src='/bower_components/textAngular/dist/textAngular-rangy.min.js'></script>
     <script src='/bower_components/textAngular/dist/textAngular-sanitize.min.js'></script>
