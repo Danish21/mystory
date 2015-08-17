@@ -2,7 +2,8 @@
 	color: red;
 }*/
 html, body, h1, h2, h3, h4, h5 {
-    font-family: georgia;
+    /*font-family: georgia;*/
+    font-family: 'LTCircular',Arial,sans-serif;
 }
 body{
 	    background-color: #ececec;
@@ -16,7 +17,7 @@ body{
   width: 50%;
 }
 .full {
-  background: url(http://placehold.it/1920x1080) no-repeat center center fixed; 
+  background: url(./images/coverFinished.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

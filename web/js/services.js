@@ -77,6 +77,13 @@ angular.module('appname.services',[])
 				return result;
 			});
 		},
+		updateUserInfo: function (user) {
+			var url = "http://localhost:3000/api/updateuserinfo";
+			return ulhttp.post(url,{user: user}).then(function (result) {
+				result = ulhttp.handleError(result);
+				return result;
+			});
+		},
 		updateStory: function (story) {
 			var url = "http://localhost:3000/api/updatestory";
 			return ulhttp.post(url,{story: story}).then(function (result) {

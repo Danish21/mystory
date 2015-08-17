@@ -29,7 +29,7 @@ angular.module('appname.controllers',[])
 			logginService.loggin($scope.email,$scope.password).then(function (result) {
 				if(result.status === 'OK'){
 					$rootScope.currentUser = result.user;
-					$location.path('/profile');
+					$location.path('/mystory');
 					toastr.success('Logged In');
 				}
 			});
@@ -112,7 +112,7 @@ angular.module('appname.controllers',[])
 			logginService.loggin($scope.email,$scope.password).then(function (result) {
 				if(result.status === 'OK'){
 					$rootScope.currentUser = result.user;
-					$location.path('/profile');
+					$location.path('/mystory');
 					toastr.success('Logged In');
 				}
 			});
@@ -147,7 +147,7 @@ angular.module('appname.controllers',[])
 
 	
 }])
-.controller('profileCtrl',['$scope','profileService','$rootScope','toastr', function($scope,profileService,$rootScope,toastr){
+.controller('mystoryCtrl',  ['$scope','profileService','$rootScope','toastr', function($scope,profileService,$rootScope,toastr) {
 	$scope.getuserinfo = function () {
 		profileService.getUserInfo().then(function (result) {
 			if (result.status === 'OK') {
@@ -162,7 +162,7 @@ angular.module('appname.controllers',[])
 				$scope.editTitle = false;
 			}
 		});
-	}
+	};
 	$scope.saveStory = function (story) {
 		profileService.updateStory(story).then(function (result) {
 			if (result.status === 'OK') {
@@ -181,6 +181,31 @@ angular.module('appname.controllers',[])
 	$scope.init = function () {
 		$scope.editstory =false;
 		$scope.getuserinfo();
+	};
+	$scope.init();
+}])
+.controller('profileCtrl',['$scope','profileService','$rootScope','toastr', 'universities', function($scope,profileService,$rootScope,toastr, universities){
+	$scope.getuserinfo = function () {
+		profileService.getUserInfo().then(function (result) {
+			if (result.status === 'OK') {
+				$scope.user = result.data;
+			} 
+		});
+	};
+	$scope.updateUserInfo = function (user) {
+		console.log('In updating');
+		console.log(user);
+		profileService.updateUserInfo(user).then(function (result) {
+			if (result.status === 'OK') {
+				toastr.success('Saved');
+			}
+		});
+	};
+	$scope.init = function () {
+		$scope.editstory = false;
+		$scope.getuserinfo();
+		$scope.universities = universities.names;
+		$scope.departments = universities.departments;
 	};
 	$scope.init();
 }])
