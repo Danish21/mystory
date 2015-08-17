@@ -1,5 +1,5 @@
 module.exports = function (app, passport) {
-    var user   = require('../app/models/user'),
+    var userModel   = require('../app/models/user'),
         question  = require('../app/models/question'),
         uuid   = require('node-uuid');  
         emailService = require('../app/email.js');
@@ -55,7 +55,7 @@ module.exports = function (app, passport) {
              email = email.toLowerCase();
 
         if (!req.user) {
-            user.findOne({ 'local.email' :  email }, function(err, returnedUser) {
+            userModel.findOne({ 'local.email' :  email }, function(err, returnedUser) {
                 // if there are any errors, return the error
                 if (err)
                     sendToClient(err, null, res);
@@ -65,7 +65,7 @@ module.exports = function (app, passport) {
                     sendToClient('That email is already taken.', null, res);
                 } else {
                     // create the user
-                    var newUser            = new user();
+                    var newUser            = new userModel();
                     newUser.local.email    = email;
                     newUser.local.password = newUser.generateHash(password);
                     newUser.firstName = req.body.firstName;
@@ -96,7 +96,7 @@ module.exports = function (app, passport) {
             user.findOne({confirmationCode: confirmationCode}, function (error, returnedUser) {
                 if (!error) {
                     if (returnedUser) {
-                         user.update({_id: returnedUser._id}, {isConfirmed: true}, function (error, updatedUser) {
+                         userModel.update({_id: returnedUser._id}, {isConfirmed: true}, function (error, updatedUser) {
                             sendToClient(error, updatedUser,res);
                         });
                     } else {
@@ -120,21 +120,21 @@ module.exports = function (app, passport) {
 // =============================================================================
     app.get('/api/getuserinfo', isLoggedIn, function (req, res) {
         var user_id = req.user._id; 
-        user.findOne({_id: user_id}, function (error,user) {
+        userModel.findOne({_id: user_id}, function (error,user) {
             if (!error) {
                 sendToClient(null,user,res);
             } else {
-                sendToClient('Something Went Wrong',null,res);
+                sendToClient('Something Went Wrong', null, res);
             }
         });
     });
 
     app.get('/api/getuserlist', function (req, res) {
-        user.find({}, {firstName:1, lastName:1, title: 1}, function (error, users) {
+        userModel.find({}, {firstName:1, lastName:1, title: 1}, function (error, users) {
             if (!error) {
                 sendToClient(null,users,res);
             } else {
-                sendToClient('Something Went Wrong',null,res);
+                sendToClient('Something Went Wrong', null, res);
             }
         });
     })
@@ -145,7 +145,7 @@ module.exports = function (app, passport) {
             if (!error) {
                 sendToClient(null,questions,res);
             } else {
-                sendToClient('Something Went Wrong',null,res);
+                sendToClient('Something Went Wrong', null, res);
             }
         });
     });
@@ -156,25 +156,47 @@ module.exports = function (app, passport) {
             if (!error) {
                 sendToClient(null,questions,res);
             } else {
-                sendToClient('Something Went Wrong',null,res);
+                sendToClient('Something Went Wrong', null, res);
             }
         });
+    });
+
+    app.post('/api/updateuserinfo', isLoggedIn, function (req, res) {
+        var user = req.body.user;
+        var updateFields = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            department: user.department,
+            university: user.university
+        };
+        if (user) {
+            if (req.user._id.equals(user._id)) {
+
+                userModel.update({_id: req.user._id}, user, function (error, updatedUser) {
+                    sendToClient(error, updateFields,res); 
+                });
+            } else {
+                sendToClient('You are not authorized to update this user\'s information', null, res)
+            }
+        } else {
+            sendToClient('Missing param user', null, res)
+        }
     });
 
     app.post('/api/updatestory', isLoggedIn, function (req, res) {
         var story = req.body.story;
         if (story) {
-            user.update({_id: req.user._id}, {story: story}, function (error, updatedUser) {
+            userModel.update({_id: req.user._id}, {story: story}, function (error, updatedUser) {
                 sendToClient(error, updatedUser,res);
             });
         } else {
-            sendToClient('Missing param story',null,res);
+            sendToClient('Missing param story',null, res);
         }
     });
     app.post('/api/updatetitle', isLoggedIn, function (req, res) {
         var title = req.body.title;
         if (title) {
-            user.update({_id: req.user._id}, {title: title}, function (error, updatedUser) {
+            userModel.update({_id: req.user._id}, {title: title}, function (error, updatedUser) {
                 sendToClient(error, updatedUser,res);
             });
         } else {
@@ -210,7 +232,7 @@ module.exports = function (app, passport) {
                             sendToClient(error,updatedQuestion,res);
                         });
                     } else {
-                        
+                          
                     }
                 } else {
                     sendToClient('This question does not exist',null,res);
@@ -220,6 +242,7 @@ module.exports = function (app, passport) {
             sendToClient('Required Params question, question._id',null,res);
         }
     });
+
     app.post('/api/updatequestionpublicity', isLoggedIn, function (req, res) {
         var givenQuestion = req.body.question;
         if (givenQuestion && givenQuestion._id) {
@@ -242,7 +265,7 @@ module.exports = function (app, passport) {
     });
     
     app.post('/api/updatestorypublicity', isLoggedIn, function (req, res) {
-        user.update({_id: req.user._id}, {$set: {public: req.body.public}}, function (error,updatedUser) {
+        userModel.update({_id: req.user._id}, {$set: {public: req.body.public}}, function (error,updatedUser) {
             sendToClient(error,updatedUser,res);
         });
     });
@@ -251,7 +274,7 @@ module.exports = function (app, passport) {
     app.post('/api/getsafeuserinfo', function (req,res) {
         var userid = req.body.userid;
         if (userid) {
-            user.findOne({_id:userid}, {_id:1, firstName:1, lastName:1,story:1, public: 1}, function(error,returnedUser){
+            userModel.findOne({_id:userid}, {_id:1, firstName:1, lastName:1,story:1, public: 1}, function(error,returnedUser){
                 if (!error) {
                     if (returnedUser.public) {
                         sendToClient(error,returnedUser,res);
@@ -267,6 +290,7 @@ module.exports = function (app, passport) {
             
         }
     });
+
     app.post('/api/getpublicquestions', function (req, res) {
         var userid = req.body.userid;
         if (userid) {

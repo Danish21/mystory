@@ -7,6 +7,7 @@ angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', '
 		.when('/signup', {title: 'signup', templateUrl: 'partials/signup.html', navLocation: 'navSignup', controller: 'signupCtrl'})
 		.when('/profile', {title: 'Profile', templateUrl: 'partials/profile.html', navLocation: 'navProfile', controller: 'profileCtrl', resolve: {logincheck: checkLogin}})
 		.when('/q&a', {title: 'Q&A', templateUrl: 'partials/qanda.html', navLocation: 'navQandA', controller: 'qandaCtrl', resolve: {logincheck: checkLogin}})
+		.when('/mystory', {title: 'My Story', templateUrl: 'partials/mystory.html', navLocation: 'navMystory', controller: 'mystoryCtrl', resolve: {logincheck: checkLogin}})
 
 		.when('/confirm', {title: 'Confirm Email', templateUrl: 'partials/confirm.html', navLocation: 'navConfirm', controller: 'confirmCtrl'})
 		.when('/story/:userid', {title: 'Story', templateUrl: 'partials/story.html', navLocation: 'navStory', controller: 'storyCtrl'})
@@ -68,7 +69,7 @@ angular.module('summerproject',['ngRoute', 'ngResource','appname.controllers', '
 			if (user!=0) {
 				$rootScope.currentUser = user;
 				deferred.reject();
-				$location.url('/profile');
+				$location.url('/mystory');
 			} 
 			//User is not Authenticated
 			else {
